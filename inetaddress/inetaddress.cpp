@@ -23,4 +23,15 @@ uint16_t InetAddress::port() const
     return ::ntohs(_addr.sin_port);
 }
 
+const sockaddr_in *InetAddress::getAddress() const
+{
+    return &_addr;
+}
+
 InetAddress::~InetAddress() {}
+
+std::ostream &operator<<(std::ostream &os, const InetAddress &addr)
+{
+    os << "ip: " << addr.ip() << " port: " << addr.port() << std::endl;
+    return os;
+}

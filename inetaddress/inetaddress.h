@@ -1,6 +1,7 @@
 #ifndef __INETADDRESS_HEAD_H__
 #define __INETADDRESS_HEAD_H__
 
+#include <iostream>
 #include <arpa/inet.h>
 #include <string>
 
@@ -11,11 +12,15 @@ public:
 
     InetAddress(const struct sockaddr_in &addr);
 
+    ~InetAddress();
+
     std::string ip() const;
 
     uint16_t port() const;
 
-    ~InetAddress();
+    const struct sockaddr_in *getAddress() const;
+
+    friend std::ostream &operator<<(std::ostream &os, const InetAddress &addr);
 
 private:
     struct sockaddr_in _addr;

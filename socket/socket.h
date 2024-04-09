@@ -4,6 +4,8 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
+class InetAddress;
+
 class Socket
 {
 public:
@@ -12,6 +14,12 @@ public:
     explicit Socket(int fd);
 
     ~Socket();
+
+    void bind(const InetAddress &addr);
+
+    void listen();
+
+    int accept();
 
     int getFd() const;
 
