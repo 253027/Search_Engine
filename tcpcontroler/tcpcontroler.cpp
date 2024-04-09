@@ -21,10 +21,7 @@ InetAddress TcpControler::getLocalAddress()
     return addr;
 }
 
-InetAddress TcpControler::getRemoteAddress()
+InetAddress TcpControler::getRemoteAddress(int fd)
 {
-    struct sockaddr_in addr;
-    socklen_t addr_len = sizeof(struct sockaddr);
-    ERROR_CHECK(::getpeername(_socket->getFd(), (struct sockaddr *)&addr, &addr_len) == -1, "getRemoteAddress error");
-    return addr;
+    return _address->getRemoteAddress(fd);
 }

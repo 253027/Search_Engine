@@ -28,6 +28,14 @@ const sockaddr_in *InetAddress::getAddress() const
     return &_addr;
 }
 
+InetAddress InetAddress::getRemoteAddress(int fd)
+{
+    struct sockaddr_in addr;
+    socklen_t addr_len = sizeof(struct sockaddr);
+    ERROR_CHECK(::getpeername(fd, (struct sockaddr *)&addr, &addr_len) == -1, "getRemoteAddress error");
+    return addr;
+}
+
 InetAddress::~InetAddress() {}
 
 std::ostream &operator<<(std::ostream &os, const InetAddress &addr)

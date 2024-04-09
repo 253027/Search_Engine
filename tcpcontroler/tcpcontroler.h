@@ -15,7 +15,7 @@ public:
 
     InetAddress getLocalAddress();
 
-    InetAddress getRemoteAddress();
+    InetAddress getRemoteAddress(int fd);
 
 private:
     std::shared_ptr<InetAddress> _address;

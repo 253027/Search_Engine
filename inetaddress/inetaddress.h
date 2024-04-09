@@ -20,6 +20,8 @@ public:
 
     const struct sockaddr_in *getAddress() const;
 
+    static InetAddress getRemoteAddress(int fd);
+
     friend std::ostream &operator<<(std::ostream &os, const InetAddress &addr);
 
 private:
