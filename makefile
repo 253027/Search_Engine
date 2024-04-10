@@ -1,6 +1,6 @@
 SRC:= server.cpp ./epoll/epoll.cpp ./eventloop/eventloop.cpp ./inetaddress/inetaddress.cpp \
-	  ./socket/socket.cpp ./tcpcontroler/tcpcontroler.cpp ./utility/utility.cpp			   \
-	  ./channel/channel.cpp ./tcpcontroler/abstractcontroler.cpp
+	  ./socket/socket.cpp ./networkcontroler/tcpcontroler.cpp ./utility/utility.cpp			   \
+	  ./channel/channel.cpp ./networkcontroler/abstractcontroler.cpp 
 
 OBJ:= $(patsubst %.cpp, %.o, $(SRC))
 
