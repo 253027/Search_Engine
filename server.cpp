@@ -5,8 +5,7 @@
 int main()
 {
     TcpControler tcp("127.0.0.1", 9190);
-    Epoll fd;
-    int t = tcp.accept();
-    fd.addFileDescripter(t, EPOLLIN);
+    tcp.setSocketOption(AbstractControl::socketoption::REUSEEDADDRESS | AbstractControl::socketoption::REUSEEDPORT);
+    tcp.connect();
     return 0;
 }

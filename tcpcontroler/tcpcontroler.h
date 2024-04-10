@@ -3,21 +3,27 @@
 
 #include <memory>
 #include <string>
+#include "abstractcontroler.h"
 #include "../socket/socket.h"
-#include "../inetaddress/inetaddress.h"
 
-class TcpControler
+class TcpControler : public AbstractControl
 {
 public:
     TcpControler(const std::string &ip, int16_t port);
 
     int accept();
 
-    InetAddress getLocalAddress();
+    void connect();
 
-    InetAddress getRemoteAddress(int fd);
+    InetAddress getLocalAddress() override;
+
+    void setSocketOption(int option) override;
 
 private:
+    void setReusedAddress();
+
+    void setReusedPort();
+
     std::shared_ptr<InetAddress> _address;
 
     std ::shared_ptr<Socket> _socket;

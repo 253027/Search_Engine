@@ -27,7 +27,7 @@ void Epoll::addFileDescripter(int fd, uint32_t option)
     event.events = option;
     event.data.ptr = static_cast<void *>(ch);
 
-    int ret = epoll_ctl(_epoll_fd, EPOLL_CTL_ADD, fd, &event);
+    int ret = ::epoll_ctl(_epoll_fd, EPOLL_CTL_ADD, fd, &event);
     ERROR_CHECK(ret == -1, "add file descripter failed");
 }
 

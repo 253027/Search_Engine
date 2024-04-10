@@ -1,6 +1,11 @@
 #ifndef __EVENTLOOP_HEAD_H__
 #define __EVENTLOOP_HEAD_H__
 
+#include <vector>
+
+class Epoll;
+class Channel;
+
 class EventLoop
 {
 public:
@@ -14,6 +19,8 @@ public:
 
 private:
     bool stop;
+
+    Epoll *_epoll;
 };
 
-#endif __EVENTLOOP_HEAD_H__
+#endif //__EVENTLOOP_HEAD_H__

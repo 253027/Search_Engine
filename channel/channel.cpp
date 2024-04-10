@@ -12,4 +12,5 @@ void Channel::setCalledEvent(uint32_t option)
 
 Channel::~Channel()
 {
+    ;
 }

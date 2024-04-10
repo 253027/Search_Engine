@@ -2,20 +2,22 @@
 #include "../utility/utility.h"
 #include "../inetaddress/inetaddress.h"
 
-Socket::Socket() : _socket_fd(-1)
+Socket::Socket(int socket, int type) : _socket_fd(-1)
 {
-    _socket_fd = ::socket(AF_INET, SOCK_STREAM, 0);
-    ERROR_CHECK(_socket_fd == -1, "create socket failed");
-}
-
-Socket::Socket(int fd) : _socket_fd(-1)
-{
-    if (fd == -1)
+    if (type)
     {
-        ERROR_CHECK(fd == -1, "error value fd, which is -1");
-        return;
+        _socket_fd = ::socket(AF_INET, socket, 0);
+        ERROR_CHECK(_socket_fd == -1, "create socket failed");
     }
-    _socket_fd = fd;
+    else
+    {
+        if (socket == -1)
+        {
+            ERROR_CHECK(socket == -1, "error value fd, which is -1");
+            return;
+        }
+        _socket_fd = socket;
+    }
 }
 
 Socket::~Socket()
