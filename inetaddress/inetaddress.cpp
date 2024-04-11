@@ -1,6 +1,5 @@
 #include "inetaddress.h"
 #include "../utility/utility.h"
-#include <cstring>
 
 InetAddress::InetAddress(const std::string &ip, int16_t port) : _addr_len(sizeof(_addr))
 {

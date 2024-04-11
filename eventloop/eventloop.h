@@ -7,23 +7,24 @@
 
 class Epoll;
 class Channel;
-class TcpControler;
 
 class EventLoop
 {
 public:
-    EventLoop(TcpControler &tcp);
+    EventLoop();
 
     void loop();
 
     void setStop();
 
+    void updateChannel(Channel *ch);
+
 private:
     bool stop;
 
-    std::unique_ptr<Epoll> _epoll;
+    std::shared_ptr<Epoll> _epoll;
 
-    std::unique_ptr<TcpControler> _tcp;
+    // std::unique_ptr<TcpControler> _tcp;
 };
 
 #endif //__EVENTLOOP_HEAD_H__

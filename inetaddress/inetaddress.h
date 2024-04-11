@@ -4,6 +4,7 @@
 #include <iostream>
 #include <arpa/inet.h>
 #include <string>
+#include <cstring>
 
 class InetAddress
 {

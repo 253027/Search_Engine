@@ -17,34 +17,17 @@ Epoll::~Epoll()
         delete x;
 }
 
-// 项目中暂时不用
-void Epoll::addFileDescripter(int fd, uint32_t option)
+void Epoll::updateChannel(Channel *channel)
 {
+    int fd = channel->getFileDescripter();
     struct epoll_event event;
     ::memset(&event, 0, sizeof(event));
-    Channel *ch = new Channel(fd, option);
-    ERROR_CHECK((ch == nullptr), "Class Channel allocate failed");
-
-    event.events = option;
-    event.data.ptr = nullptr;
-    memo.insert(ch);
-
-    int ret = ::epoll_ctl(_epoll_fd, EPOLL_CTL_ADD, fd, &event);
-    ERROR_CHECK(ret == -1, "add file descripter failed");
-}
-
-void Epoll::addFileDescripter(Channel *ch)
-{
-    struct epoll_event event;
-    ::memset(&event, 0, sizeof(event));
-    ERROR_CHECK((ch == nullptr), "Class Channel is nullptr");
-
-    event.events = ch->getRegistEvent();
-    event.data.ptr = static_cast<void *>(ch);
-    memo.insert(ch);
-
-    int ret = ::epoll_ctl(_epoll_fd, EPOLL_CTL_ADD, ch->getFileDescripter(), &event);
-    ERROR_CHECK(ret == -1, "add file descripter failed");
+    event.events = channel->getRegistEvent();
+    event.data.ptr = static_cast<void *>(channel);
+    if (channel->isInEpoll())
+        ERROR_CHECK(epoll_ctl(_epoll_fd, EPOLL_CTL_MOD, fd, &event) == -1, "epoll modify failed");
+    else
+        ERROR_CHECK(epoll_ctl(_epoll_fd, EPOLL_CTL_ADD, fd, &event) == -1, "epoll add failed");
 }
 
 std::vector<Channel *> Epoll::epoll_wait(int timeout)

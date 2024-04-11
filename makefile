@@ -1,10 +1,10 @@
 SRC:= server.cpp ./epoll/epoll.cpp ./eventloop/eventloop.cpp ./inetaddress/inetaddress.cpp \
-	  ./socket/socket.cpp ./networkcontroler/tcpcontroler.cpp ./utility/utility.cpp			   \
-	  ./channel/channel.cpp ./networkcontroler/abstractcontroler.cpp 
+	  ./socket/socket.cpp  ./utility/utility.cpp ./channel/channel.cpp ./acceptor/acceptor.cpp \
+	  ./networkcontroler/abstractcontroler.cpp ./networkcontroler/tcpcontroler.cpp ./tcpserver/tcpserver.cpp 
 
 OBJ:= $(patsubst %.cpp, %.o, $(SRC))
 
-CFLAGS:= 
+CFLAGS:=
 ifdef _DEBUG
 	CFLAGS += -D _DEBUG -g -fsanitize=address
 endif
@@ -12,7 +12,7 @@ endif
 server: $(OBJ)
 	g++ $^ $(CFLAGS) -o $@ 
 %.o: %.cpp
-	g++ -c $^ $(CFLAGS)  -o $@ 
+	g++ -c $^ $(CFLAGS) -o $@ 
 
 .PHONY: clean
 clean:

@@ -9,7 +9,7 @@ class InetAddress;
 class Socket
 {
 public:
-    Socket(int socket, int type = 0);
+    explicit Socket(int socket, int type = 0);
 
     ~Socket();
 
