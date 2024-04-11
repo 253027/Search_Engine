@@ -3,10 +3,8 @@
 
 #include <memory>
 #include <string>
-#include <unordered_map>
 
 class Socket;
-class TcpControler;
 class Acceptor;
 class EventLoop;
 
@@ -18,8 +16,6 @@ public:
     void start();
 
 private:
-    std::unordered_map<int, std::shared_ptr<TcpControler>> _connect_map;
-
     std::shared_ptr<Socket> _ser_sock;
 
     std::shared_ptr<EventLoop> _loop;

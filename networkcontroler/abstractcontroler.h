@@ -8,9 +8,9 @@ class AbstractControl
 public:
     enum socketoption
     {
-        REUSEEDADDRESS,
+        REUSEDADDRESS,
 
-        REUSEEDPORT,
+        REUSEDPORT,
 
         ENDOFSOCKETPOPTION
     };

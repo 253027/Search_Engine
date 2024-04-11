@@ -20,6 +20,7 @@ Epoll::~Epoll()
 void Epoll::updateChannel(Channel *channel)
 {
     int fd = channel->getFileDescripter();
+    memo.insert(channel);
     struct epoll_event event;
     ::memset(&event, 0, sizeof(event));
     event.events = channel->getRegistEvent();

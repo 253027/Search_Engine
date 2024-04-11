@@ -18,5 +18,11 @@ void Acceptor::acceptNewConnection(std::shared_ptr<EventLoop> loop, std::shared_
     ERROR_CHECK(client_sock == -1, "new client connected error");
     Channel *ch = new Channel(&*loop.get(), client_sock);
     ch->enableReading();
-    std::cout << InetAddress::getRemoteAddress(client_sock);
+
+    std::cout << InetAddress::getRemoteAddress(client_sock); // 查域名这里会阻塞
+
+    TcpControler *tcp = new TcpControler(client_sock);
+    using socketoptions = AbstractControl::socketoption;
+    tcp->setSocketOption(socketoptions::REUSEDADDRESS | socketoptions::REUSEDPORT);
+    _loop->recordNewConnection(client_sock, tcp); // 这里传给了Evenloop共享指针自动销毁
 }

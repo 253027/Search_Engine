@@ -4,16 +4,11 @@
 #include <memory>
 #include <string>
 #include "abstractcontroler.h"
-#include "../socket/socket.h"
 
 class TcpControler : public AbstractControl
 {
 public:
-    TcpControler(const std::string &ip, int16_t port);
-
-    int accept();
-
-    int getSocket() const; // 返回服务器端套接字文件描述符
+    TcpControler(int socket);
 
     InetAddress getLocalAddress() override;
 
@@ -24,9 +19,9 @@ private:
 
     void setReusedPort();
 
-    std::shared_ptr<InetAddress> _address;
+    int _socket;
 
-    std ::shared_ptr<Socket> _socket;
+    std::shared_ptr<InetAddress> _address;
 };
 
 #endif //__TCPCONTROLER_HEAD_H__
