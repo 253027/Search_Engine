@@ -15,9 +15,9 @@ class Acceptor
 public:
     Acceptor(std::shared_ptr<EventLoop> &loop, std::shared_ptr<Socket> &socket);
 
+private:
     void acceptNewConnection(std ::shared_ptr<EventLoop> loop, std::shared_ptr<Socket> socket);
 
-private:
     std::shared_ptr<EventLoop> _loop;
 
     std::shared_ptr<Socket> _socket;

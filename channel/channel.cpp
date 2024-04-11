@@ -1,15 +1,10 @@
 #include "channel.h"
 #include "../eventloop/eventloop.h"
 
-Channel::Channel(EventLoop *loop, int fd) : _is_in_epoll(false), _socket_fd(fd)
+Channel::Channel(std::shared_ptr<EventLoop> &loop, int fd) : _is_in_epoll(false), _socket_fd(fd), _loop(loop)
 
 {
-    _loop.reset(loop);
-}
-
-void Channel::handleEvent()
-{
-    _call_back();
+    ;
 }
 
 void Channel::setCalledEvent(uint32_t option)
@@ -17,9 +12,9 @@ void Channel::setCalledEvent(uint32_t option)
     _called_event = option;
 }
 
-Channel::~Channel()
+void Channel::headleReadConnectionEvent()
 {
-    ;
+    _call_back_read_connection();
 }
 
 int Channel::getRegistEvent()
@@ -35,6 +30,11 @@ int Channel::getCalledEvent()
 bool Channel::isInEpoll()
 {
     return _is_in_epoll;
+}
+
+void Channel::handleNewConnectionEvent()
+{
+    _call_back_newconnection();
 }
 
 void Channel::setInEpoll()

@@ -9,7 +9,7 @@ TcpServer::TcpServer(const std::string &ip, const uint16_t port)
     InetAddress address(ip, port);
     _ser_sock->bind(address);
 
-    _loop.reset(new EventLoop());
+    _loop.reset(new EventLoop(_ser_sock->getFd()));
     _ac.reset(new Acceptor(_loop, _ser_sock));
 }
 

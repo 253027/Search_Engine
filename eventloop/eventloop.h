@@ -4,6 +4,7 @@
 #include <vector>
 #include <memory>
 #include <unistd.h>
+#include <string>
 #include <unordered_map>
 
 class Epoll;
@@ -13,7 +14,9 @@ class TcpControler;
 class EventLoop
 {
 public:
-    EventLoop();
+    EventLoop(int server_sock);
+
+    ~EventLoop();
 
     void loop();
 
@@ -23,8 +26,12 @@ public:
 
     void recordNewConnection(int fd, TcpControler *tcp);
 
+    void handleReadConnection(int client_sock);
+
 private:
     bool stop;
+
+    int _server_sock;
 
     std::shared_ptr<Epoll> _epoll;
 

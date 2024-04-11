@@ -28,7 +28,7 @@ void Epoll::updateChannel(Channel *channel)
     if (channel->isInEpoll())
         ERROR_CHECK(epoll_ctl(_epoll_fd, EPOLL_CTL_MOD, fd, &event) == -1, "epoll modify failed");
     else
-        ERROR_CHECK(epoll_ctl(_epoll_fd, EPOLL_CTL_ADD, fd, &event) == -1, "epoll add failed");
+        ERROR_CHECK(epoll_ctl(_epoll_fd, EPOLL_CTL_ADD, fd, &event) == -1, "epoll add failed"), channel->setInEpoll();
 }
 
 std::vector<Channel *> Epoll::epoll_wait(int timeout)

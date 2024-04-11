@@ -7,22 +7,27 @@
 #include <functional>
 #include <sys/epoll.h>
 
+class TcpControler;
 class EventLoop;
 
 class Channel
 {
 public:
-    Channel(EventLoop *loop, int fd);
+    Channel(std::shared_ptr<EventLoop> &loop, int fd);
 
-    void handleEvent();
+    void handleNewConnectionEvent();
 
-    void setCalledEvent(uint32_t option);
+    void headleReadConnectionEvent();
 
-    inline void setCallBack(std::function<void()> cb) { _call_back = cb; };
+    inline void setNewConnectionCallBack(std::function<void()> cb) { _call_back_newconnection = cb; };
+
+    inline void setReadConnectionCallBack(std::function<void()> cb) { _call_back_read_connection = cb; };
 
     bool isInEpoll();
 
     void setInEpoll();
+
+    void setCalledEvent(uint32_t option);
 
     int getRegistEvent();
 
@@ -32,10 +37,11 @@ public:
 
     void enableReading();
 
-    ~Channel();
-
 private:
-    std::function<void()> _call_back;
+    std::function<void()> _call_back_newconnection;
+
+    std ::function<void()> _call_back_read_connection;
+
     // epoll调用updatechaannel时避免重复添加
     bool _is_in_epoll;
     // 要监听的文件描述符集合

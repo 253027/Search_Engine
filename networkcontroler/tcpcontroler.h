@@ -20,8 +20,6 @@ private:
     void setReusedPort();
 
     int _socket;
-
-    std::shared_ptr<InetAddress> _address;
 };
 
 #endif //__TCPCONTROLER_HEAD_H__
