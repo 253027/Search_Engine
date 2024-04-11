@@ -18,6 +18,8 @@ public:
 
     void addFileDescripter(int fd, uint32_t option);
 
+    void addFileDescripter(Channel *ch);
+
     std::vector<Channel *> epoll_wait(int timeout = -1);
 
 private:

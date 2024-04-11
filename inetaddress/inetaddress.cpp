@@ -36,8 +36,6 @@ InetAddress InetAddress::getRemoteAddress(int fd)
     return addr;
 }
 
-InetAddress::~InetAddress() {}
-
 std::ostream &operator<<(std::ostream &os, const InetAddress &addr)
 {
     os << "ip: " << addr.ip() << " port: " << addr.port() << std::endl;

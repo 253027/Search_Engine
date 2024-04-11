@@ -4,7 +4,7 @@
 
 Epoll::Epoll() : _epoll_fd(-1), events(1024)
 {
-    _epoll_fd = ::epoll_create1(0);
+    _epoll_fd = ::epoll_create(1);
     ERROR_CHECK(_epoll_fd == -1, "epoll fd create failed");
     ERROR_CHECK((events.size() == 0), "epoll_events array allocate failed");
 }
@@ -17,6 +17,7 @@ Epoll::~Epoll()
         delete x;
 }
 
+// 项目中暂时不用
 void Epoll::addFileDescripter(int fd, uint32_t option)
 {
     struct epoll_event event;
@@ -25,9 +26,24 @@ void Epoll::addFileDescripter(int fd, uint32_t option)
     ERROR_CHECK((ch == nullptr), "Class Channel allocate failed");
 
     event.events = option;
-    event.data.ptr = static_cast<void *>(ch);
+    event.data.ptr = nullptr;
+    memo.insert(ch);
 
     int ret = ::epoll_ctl(_epoll_fd, EPOLL_CTL_ADD, fd, &event);
+    ERROR_CHECK(ret == -1, "add file descripter failed");
+}
+
+void Epoll::addFileDescripter(Channel *ch)
+{
+    struct epoll_event event;
+    ::memset(&event, 0, sizeof(event));
+    ERROR_CHECK((ch == nullptr), "Class Channel is nullptr");
+
+    event.events = ch->getRegistEvent();
+    event.data.ptr = static_cast<void *>(ch);
+    memo.insert(ch);
+
+    int ret = ::epoll_ctl(_epoll_fd, EPOLL_CTL_ADD, ch->getFileDescripter(), &event);
     ERROR_CHECK(ret == -1, "add file descripter failed");
 }
 

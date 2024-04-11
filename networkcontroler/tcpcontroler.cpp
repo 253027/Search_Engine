@@ -5,6 +5,8 @@
 TcpControler::TcpControler(const std::string &ip, int16_t port) : _address(new InetAddress(ip, port)),
                                                                   _socket(new Socket(SOCK_STREAM, 1))
 {
+    _socket->bind(*_address);
+    _socket->listen();
 }
 
 int TcpControler::accept()
@@ -12,11 +14,9 @@ int TcpControler::accept()
     return _socket->accept();
 }
 
-void TcpControler::connect()
+int TcpControler::getSocket() const
 {
-    _socket->bind(*_address);
-    _socket->listen();
-    _socket->accept();
+    return _socket->getFd();
 }
 
 InetAddress TcpControler::getLocalAddress()

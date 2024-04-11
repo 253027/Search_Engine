@@ -12,8 +12,6 @@ public:
 
     InetAddress(const struct sockaddr_in &addr);
 
-    ~InetAddress();
-
     std::string ip() const;
 
     uint16_t port() const;

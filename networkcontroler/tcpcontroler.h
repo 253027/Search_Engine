@@ -13,7 +13,7 @@ public:
 
     int accept();
 
-    void connect();
+    int getSocket() const; // 返回服务器端套接字文件描述符
 
     InetAddress getLocalAddress() override;
 

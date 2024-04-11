@@ -10,9 +10,9 @@ ifdef _DEBUG
 endif
 
 server: $(OBJ)
-	g++ $^ -o $@ $(CFLAGS)
+	g++ $^ $(CFLAGS) -o $@ 
 %.o: %.cpp
-	g++ -c $^ -o $@ $(CFLAGS) 
+	g++ -c $^ $(CFLAGS)  -o $@ 
 
 .PHONY: clean
 clean:
