@@ -15,13 +15,9 @@ class Channel
 public:
     Channel(std::shared_ptr<EventLoop> &loop, int fd);
 
-    void handleNewConnectionEvent();
+    virtual void CallBack() = 0;
 
-    void headleReadConnectionEvent();
-
-    inline void setNewConnectionCallBack(std::function<void()> cb) { _call_back_newconnection = cb; };
-
-    inline void setReadConnectionCallBack(std::function<void()> cb) { _call_back_read_connection = cb; };
+    virtual void setCallBack(std::function<void()> cb) = 0;
 
     bool isInEpoll();
 
@@ -38,10 +34,6 @@ public:
     void enableReading();
 
 private:
-    std::function<void()> _call_back_newconnection;
-
-    std ::function<void()> _call_back_read_connection;
-
     // epoll调用updatechaannel时避免重复添加
     bool _is_in_epoll;
     // 要监听的文件描述符集合
