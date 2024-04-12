@@ -14,7 +14,7 @@ public:
 
     int boundary_send(const std::string &buf);
 
-    int send(std::string &buf);
+    int send(const std::string &buf);
 
     int recv(std::string &buf);
 

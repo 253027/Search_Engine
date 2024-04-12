@@ -24,12 +24,25 @@ int IoDevice::boundary_recv(std::string &buf)
 
 int IoDevice::boundary_send(const std::string &buf)
 {
-    return 0;
+    size_t len = buf.size(), has_send = 0;
+    int ret = ::send(_socket, &len, sizeof(len), 0);
+    ERROR_CHECK(ret == -1, "boundary send data size error");
+    return send(buf);
 }
 
-int IoDevice::send(std::string &buf)
+int IoDevice::send(const std::string &buf)
 {
-    return 0;
+    int ret;
+    size_t len = buf.size(), has_send = 0;
+    while ((ret = ::send(_socket, buf.data() + has_send, std::min(1024UL, len - has_send), 0)) > 0)
+    {
+        if (ret == -1 && (errno & EWOULDBLOCK))
+            continue;
+        else if (ret == -1)
+            return -1;
+        has_send += ret;
+    }
+    return has_send;
 }
 
 int IoDevice::recv(std::string &buf)
