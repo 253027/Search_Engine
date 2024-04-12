@@ -26,6 +26,6 @@ void Acceptor::acceptNewConnection(std::shared_ptr<EventLoop> loop, std::shared_
 
     TcpControler *tcp = new TcpControler(client_sock);
     using socketoptions = AbstractControl::socketoption;
-    tcp->setSocketOption(socketoptions::REUSEDADDRESS | socketoptions::REUSEDPORT);
+    tcp->setSocketOption(socketoptions::REUSEDADDRESS | socketoptions::REUSEDPORT | socketoptions::NONEBLOCKSOCKET);
     _loop->recordNewConnection(client_sock, tcp); // 这里传给了Evenloop共享指针自动销毁
 }

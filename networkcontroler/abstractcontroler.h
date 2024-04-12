@@ -1,6 +1,9 @@
 #ifndef __ABSTRACTCONTROLER_HEAD_H__
 #define __ABSTRACTCONTROLER_HEAD_H__
 
+#include <string>
+#include <fcntl.h>
+
 class InetAddress;
 
 class AbstractControl
@@ -12,6 +15,8 @@ public:
 
         REUSEDPORT,
 
+        NONEBLOCKSOCKET,
+
         ENDOFSOCKETPOPTION
     };
 
@@ -20,6 +25,10 @@ public:
     InetAddress getRemoteAddress(int fd);
 
     virtual void setSocketOption(int option) = 0;
+
+    virtual int send(std::string &buf, int size) = 0;
+
+    virtual int recv(std::string &buf, int size) = 0;
 
 private:
 };
