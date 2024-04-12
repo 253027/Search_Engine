@@ -1,6 +1,7 @@
 #include "epoll.h"
 #include "../utility/utility.h"
-#include "../channel/channel.h"
+#include "../channel/newconchannel.h"
+#include "../channel/readeventchannel.h"
 
 Epoll::Epoll() : _epoll_fd(-1), events(1024)
 {

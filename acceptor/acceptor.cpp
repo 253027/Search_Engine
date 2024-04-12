@@ -1,14 +1,15 @@
 #include "acceptor.h"
 #include "../eventloop/eventloop.h"
-#include "../channel/channel.h"
+#include "../channel/newconchannel.h"
+#include "../channel/readeventchannel.h"
 #include "../utility/utility.h"
 
 Acceptor::Acceptor(std::shared_ptr<EventLoop> &loop, std::shared_ptr<Socket> &socket) : _loop(loop), _socket(socket)
 {
     _socket->listen();
-    _server_channel.reset(new Channel(_loop, _socket->getFd()));
+    _server_channel.reset(new NewConChanel(_loop, _socket->getFd()));
     std::function<void()> cb = std::bind(&Acceptor::acceptNewConnection, this, _loop, _socket);
-    _server_channel->setNewConnectionCallBack(cb);
+    _server_channel->setCallBack(cb);
     _server_channel->enableReading(); // 这里注册,默认模式为边缘触发
 }
 
@@ -18,8 +19,8 @@ void Acceptor::acceptNewConnection(std::shared_ptr<EventLoop> loop, std::shared_
     ERROR_CHECK(client_sock == -1, "new client connected error");
 
     std::function<void()> cb = std::bind(&EventLoop::handleReadConnection, _loop.get(), client_sock);
-    Channel *ch = new Channel(loop, client_sock);
-    ch->setReadConnectionCallBack(cb);
+    Channel *ch = new ReadEventChannel(loop, client_sock);
+    ch->setCallBack(cb);
     ch->enableReading(); // 这里注册,默认模式为边缘触发
 
     std::cout << InetAddress::getRemoteAddress(client_sock); // 查域名这里会阻塞

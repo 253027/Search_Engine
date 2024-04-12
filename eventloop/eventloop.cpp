@@ -18,13 +18,7 @@ void EventLoop::loop()
     {
         std::vector<Channel *> event = _epoll->epoll_wait();
         for (auto &x : event)
-        {
-            // 处理新客户端请连接
-            if (x->getFileDescripter() == _server_sock && (x->getCalledEvent() & EPOLLIN))
-                x->handleNewConnectionEvent();
-            else // TCP连接读事件
-                x->headleReadConnectionEvent();
-        }
+            x->CallBack();
     }
 }
 
