@@ -3,6 +3,7 @@
 
 #include <sys/epoll.h>
 #include <unistd.h>
+#include <errno.h>
 #include <cstring>
 #include <vector>
 #include <unordered_set>

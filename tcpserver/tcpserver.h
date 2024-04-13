@@ -15,6 +15,8 @@ public:
 
     void start();
 
+    void stop();
+
 private:
     std::shared_ptr<Socket> _ser_sock;
 

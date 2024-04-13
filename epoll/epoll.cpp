@@ -36,7 +36,7 @@ std::vector<Channel *> Epoll::epoll_wait(int timeout)
 {
     std::vector<Channel *> res;
     int nums = ::epoll_wait(_epoll_fd, events.data(), events.size(), timeout);
-    ERROR_CHECK(nums == -1, "epoll_wait error");
+    ERROR_CHECK(nums == -1 && (errno != EINTR), "epoll_wait error");
     if (nums == events.size())
         events.resize(nums << 1);
     for (int i = 0; i < nums; i++)

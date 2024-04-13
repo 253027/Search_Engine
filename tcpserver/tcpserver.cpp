@@ -17,3 +17,8 @@ void TcpServer::start()
 {
     _loop->loop();
 }
+
+void TcpServer::stop()
+{
+    _loop->setStop();
+}
